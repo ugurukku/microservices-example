@@ -17,21 +17,30 @@ public class PaymentController {
     private final PaymentService service;
 
     @GetMapping
-    public List<PaymentResponse> getAll(){
+    public List<PaymentResponse> getAll() {
         return service.getAllPayments();
     }
 
     @GetMapping("/{id}")
-    public PaymentResponse getById(@PathVariable(name = "id") Long id){
+    public PaymentResponse getById(@PathVariable(name = "id") Long id) {
         return service.getPaymentById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addPayment(@RequestBody PaymentRequest request){
+    public void addPayment(@RequestBody PaymentRequest request) {
         service.savePayment(request);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable(name = "id") Long id) {
+        service.removePaymentById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateById(@PathVariable(name = "id") Long id, @RequestBody PaymentRequest request) {
+        service.updatePaymentById(id, request);
+    }
 
 
 }

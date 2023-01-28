@@ -2,11 +2,13 @@ package com.ugurukku.payment.client;
 
 import com.ugurukku.payment.models.client.CountryDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Component
 @FeignClient(name = "country",url = "${client.country.endpoint}")
 public interface CountryClient {
 
