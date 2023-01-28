@@ -1,0 +1,3 @@
+rootProject.name = 'microservices-example'
+include 'country'
+include 'payment'
