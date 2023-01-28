@@ -1,11 +1,11 @@
 package com.ugurukku.payment.controllers;
 
+import com.ugurukku.payment.models.request.PaymentRequest;
 import com.ugurukku.payment.models.response.PaymentResponse;
 import com.ugurukku.payment.services.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +20,18 @@ public class PaymentController {
     public List<PaymentResponse> getAll(){
         return service.getAllPayments();
     }
+
+    @GetMapping("/{id}")
+    public PaymentResponse getById(@PathVariable(name = "id") Long id){
+        return service.getPaymentById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addPayment(@RequestBody PaymentRequest request){
+        service.savePayment(request);
+    }
+
+
 
 }
