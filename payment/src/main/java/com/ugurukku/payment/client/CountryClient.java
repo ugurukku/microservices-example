@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Component
 @FeignClient(name = "country",url = "${client.country.endpoint}")
 public interface CountryClient {
 
