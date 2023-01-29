@@ -7,6 +7,7 @@ import com.ugurukku.payment.models.response.PaymentResponse;
 import com.ugurukku.payment.services.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class PaymentController {
     @GetMapping
     public PageablePaymentResponse getAll(@RequestParam int page,
                                           @RequestParam int count,
-                                          PaymentCriteria criteria) {
+                                          @Nullable PaymentCriteria criteria) {
         return service.getAllPayments(page, count, criteria);
     }
 
