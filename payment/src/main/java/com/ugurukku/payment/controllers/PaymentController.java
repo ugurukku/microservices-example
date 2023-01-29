@@ -1,6 +1,8 @@
 package com.ugurukku.payment.controllers;
 
+import com.ugurukku.payment.models.request.PaymentCriteria;
 import com.ugurukku.payment.models.request.PaymentRequest;
+import com.ugurukku.payment.models.response.PageablePaymentResponse;
 import com.ugurukku.payment.models.response.PaymentResponse;
 import com.ugurukku.payment.services.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,10 @@ public class PaymentController {
     private final PaymentService service;
 
     @GetMapping
-    public List<PaymentResponse> getAll() {
-        return service.getAllPayments();
+    public PageablePaymentResponse getAll(@RequestParam int page,
+                                          @RequestParam int count,
+                                          PaymentCriteria criteria) {
+        return service.getAllPayments(page, count, criteria);
     }
 
     @GetMapping("/{id}")
