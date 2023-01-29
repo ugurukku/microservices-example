@@ -4,11 +4,16 @@ import com.ugurukku.payment.client.CountryClient;
 import com.ugurukku.payment.entities.Payment;
 import com.ugurukku.payment.exceptions.NotFoundException;
 import com.ugurukku.payment.mappers.PaymentMapper;
+import com.ugurukku.payment.models.request.PaymentCriteria;
 import com.ugurukku.payment.models.request.PaymentRequest;
+import com.ugurukku.payment.models.response.PageablePaymentResponse;
 import com.ugurukku.payment.models.response.PaymentResponse;
 import com.ugurukku.payment.repositories.PaymentRepository;
+import com.ugurukku.payment.services.specification.PaymentSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -34,9 +39,24 @@ public class PaymentService {
         return mapEntityToResponse(fetchPaymentIfExist(id));
     }
 
-    public List<PaymentResponse> getAllPayments() {
+    public PageablePaymentResponse getAllPayments(int page, int count, PaymentCriteria criteria) {
         log.info("getAllPayments.start");
-        return repository.findAll().stream().map(PaymentMapper::mapEntityToResponse).toList();
+        var pageable = PageRequest.of(page, count, Sort.by(Sort.Direction.DESC, "id"));
+        var pageablePayments = repository.findAll(new PaymentSpecification(criteria), pageable);
+
+        var payments = pageablePayments
+                .getContent()
+                .stream()
+                .map(PaymentMapper::mapEntityToResponse)
+                .toList();
+
+        log.info("getAllPayments.success");
+
+        return new PageablePaymentResponse(
+                payments,
+                pageablePayments.getTotalElements(),
+                pageablePayments.getTotalPages(),
+                pageablePayments.hasNext());
     }
 
     public void savePayment(PaymentRequest request) {
