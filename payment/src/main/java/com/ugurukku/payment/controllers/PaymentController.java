@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class PaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addPayment(@RequestBody PaymentRequest request) {
+    public void addPayment(@Valid @RequestBody PaymentRequest request) {
         service.savePayment(request);
     }
 
