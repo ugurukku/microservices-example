@@ -8,6 +8,14 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user
+          predicates:
+            - Path=/api/accounts
+            - Method=GET
+          uri: lb://account
+
 eureka:
   client:
     service-url:
